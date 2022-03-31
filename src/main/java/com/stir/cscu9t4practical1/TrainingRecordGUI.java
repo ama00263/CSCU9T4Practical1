@@ -27,8 +27,11 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
     private JLabel labdist = new JLabel(" Distance (km):");
     private JButton addR = new JButton("Add");
     private JButton lookUpByDate = new JButton("Look Up");
+    private JButton lookupEntry = new JButton("Look-Up");
 
+    
     private TrainingRecord myAthletes = new TrainingRecord();
+   
 
     private JTextArea outputArea = new JTextArea(5, 50);
 
@@ -68,6 +71,8 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         addR.addActionListener(this);
         add(lookUpByDate);
         lookUpByDate.addActionListener(this);
+        add(lookupEntry);
+        lookupEntry.addActionListener(this);
         add(outputArea);
         outputArea.setEditable(false);
         setSize(720, 200);
@@ -88,6 +93,11 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         if (event.getSource() == lookUpByDate) {
             message = lookupEntry();
         }
+        
+        if (event.getSource() == lookupEntry) {
+            message = lookupEntry();
+        }
+       
         outputArea.setText(message);
         blankDisplay();
     } // actionPerformed
@@ -108,6 +118,15 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         return message;
     }
     
+    public String lookUpByDate() {
+        int m = Integer.parseInt(month.getText());
+        int d = Integer.parseInt(day.getText());
+        int y = Integer.parseInt(year.getText());
+        outputArea.setText("looking up record ...");
+        String message = myAthletes.lookUpByDate(d, m, y);
+        return message;
+    }
+    
     public String lookupEntry() {
         int m = Integer.parseInt(month.getText());
         int d = Integer.parseInt(day.getText());
@@ -115,6 +134,30 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         outputArea.setText("looking up record ...");
         String message = myAthletes.lookupEntry(d, m, y);
         return message;
+    }
+    
+    public String lookupAllEntries()
+    {
+    	int m = Integer.parseInt(month.getText());
+        int d = Integer.parseInt(day.getText());
+        int y = Integer.parseInt(year.getText());
+        outputArea.setText("looking up record ...");
+        String message = myAthletes.lookupAllEntries(d, m, y);
+        return message;
+    }
+   
+    public String RemoveEntry()
+    {
+    	int m = Integer.parseInt(month.getText());
+        int d = Integer.parseInt(day.getText());
+        int y = Integer.parseInt(year.getText());
+        String n = name.getText();
+        outputArea.setText("deleting record ...");
+        String result = myAthletes.removeEntry(n, d, m, y);
+        outputArea.setText(result);
+        String message = "Record removed";
+        return message;
+     
     }
 
     public void blankDisplay() {
@@ -126,6 +169,8 @@ public class TrainingRecordGUI extends JFrame implements ActionListener {
         mins.setText("");
         secs.setText("");
         dist.setText("");
+        
+        
 
     }// blankDisplay
     // Fills the input fields on the display for testing purposes only
